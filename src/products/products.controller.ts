@@ -33,6 +33,8 @@ export class ProductsController {
   getProduct(
     @Param('id') id: string
   ) {
-
+    return {
+      product: this.productService.getSingleProduct(id)
+    };
   }
 }
