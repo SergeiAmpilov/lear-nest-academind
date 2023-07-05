@@ -39,14 +39,15 @@ export class ProductsController {
   }
 
   @Patch(':id')
-  updateProduct(
+  async updateProduct(
     @Param('id') id: string,
     @Body('title') title: string,
     @Body('description') description: string,
     @Body('price') price: number,
   ) {
+    const prod = await this.productService.updateProduct(id, title, description, price);
     return {
-      product: this.productService.updateProduct(id, title, description, price)
+      product: prod
     };
   }
 
