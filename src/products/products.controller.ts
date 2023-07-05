@@ -11,30 +11,30 @@ export class ProductsController {
   ) {}
 
   @Post()
-  addProduct(
+  async addProduct(
     @Body('title') title: string,
     @Body('description') description: string,
     @Body('price') price: number,
-  ): {id: string} {
-    const generatedId: string = this.productService.insertProduct(title, description, price);
+  ) {
+    const generatedId = await this.productService.insertProduct(title, description, price);
     return {
       id: generatedId
     }
   }
 
   @Get()
-  getAllProducts() {
-    return {
-      products: this.productService.getProducts()
-    };
+  async getAllProducts() {
+    const products = await this.productService.getProducts();
+    return { products };
   }
 
   @Get(':id')
-  getProduct(
+  async getProduct(
     @Param('id') id: string
   ) {
+    const product = await this.productService.getSingleProduct(id);
     return {
-      product: this.productService.getSingleProduct(id)
+      product
     };
   }
 
