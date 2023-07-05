@@ -1,14 +1,16 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Product } from './product.model';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { SpeakerService } from 'src/test/speaker.service';
 
 
 @Injectable()
 export class ProductsService {
 
   constructor(
-    @InjectModel('Product') private readonly productModel: Model<Product>
+    @InjectModel('Product') private readonly productModel: Model<Product>,
+    private readonly speakerService: SpeakerService
   ) { }
 
 
@@ -40,6 +42,8 @@ export class ProductsService {
   
   async getSingleProduct(id: string) {
     const product = await this.findProduct(id);
+    this.speakerService.sayHi(product.title);    
+
     return {
       id: product.id,
       title: product.title,
